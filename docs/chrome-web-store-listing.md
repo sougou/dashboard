@@ -16,10 +16,10 @@ V=$(python3 -c "import json; print(json.load(open('manifest.json'))['version'])"
 rm -f dashboard-*.zip
 zip -rq "dashboard-$V.zip" \
   manifest.json newtab.html newtab.css newtab.js config.js cities.js \
-  src assets/icons -x '*.DS_Store'
+  src assets/icons assets/fonts -x '*.DS_Store'
 ```
 
-Contains only runtime files + icons — no docs, tests, screenshots, or README.
+Contains only runtime files, icons, and the bundled font — no docs, tests, screenshots, or README.
 
 ## Listing fields
 
@@ -107,11 +107,16 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
     without it the feature stays off.
   - Host `api.open-meteo.com` — current weather for the local zone (rounded
     coordinates; cached locally for 30 minutes).
-- **Data usage disclosures:** Does NOT collect or transmit personal or usage
-  data. No analytics, no remote logging. A detected city and coordinates are
-  cached locally for 24 hours to label the local card and calculate daylight.
-- **Privacy policy URL:** `https://solstice.seanoliver.dev/privacy`
-- **Website (Store listing → Additional fields → Official URL / Homepage URL):** `https://solstice.seanoliver.dev`
+- **Data usage disclosures:** Declare **location** (approximate or precise,
+  only if the user allows it, otherwise derived from the IP address). It is
+  sent to third-party services as described in `PRIVACY.md` (BigDataCloud,
+  Open-Meteo, and the IP lookup providers) and is not stored by the developer
+  or sold. No analytics, no remote logging, no accounts. A detected city and
+  coordinates are cached locally for 24 hours to label the local card and
+  calculate daylight; weather is cached for 30 minutes.
+- **Privacy policy URL:** `https://github.com/sougou/dashboard/blob/main/PRIVACY.md`
+  (the repo must be public so reviewers and testers can open it)
+- **Website (Store listing → Additional fields → Official URL / Homepage URL):** `https://github.com/sougou/dashboard`
 
 ## Submission steps **(you)**
 
@@ -133,10 +138,6 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
   separately with `native/install.sh <extension-id>`, and once the listing has
   a store ID, pass that ID to `native/install.sh` as well. The installer
   allows only the IDs you give it, so Sean's original listing never has access.
-- **(you)** The privacy policy URL and website above still point at the
-  original Solstice site. Replace them with a page you control before
-  submitting. `PRIVACY.md` and `web/src/pages/privacy.astro` also still list
-  the original contact email.
 - Keep the README disclaimers and the paragraph in the description; they are
   what reviewers and testers see about the extension's reach.
 

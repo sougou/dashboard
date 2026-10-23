@@ -3,8 +3,8 @@
   "name": "Dashboard",
   "version": "1.2.0",
   "description": "A calm new tab that visualizes daylight and working hours across all your time zones, at a glance.",
-  "author": "Sean Oliver",
-  "homepage_url": "https://solstice.seanoliver.dev",
+  "author": "Sugu Sougoumarane (based on Solstice by Sean Oliver)",
+  "homepage_url": "https://github.com/sougou/dashboard",
   "icons": {
     "16": "assets/icons/icon-16.png",
     "32": "assets/icons/icon-32.png",
