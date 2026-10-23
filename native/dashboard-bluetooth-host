@@ -2,8 +2,9 @@
 # Native messaging host for Dashboard (macOS). Chrome extensions can't read
 # Bluetooth device batteries, so this helper reads them from the system and
 # returns only what the extension needs: connected Bluetooth devices from
-# system_profiler, plus accessory battery percentages from ioreg (keyboards,
-# mice, trackpads). It makes no network calls and keeps nothing.
+# system_profiler, accessory battery percentages from ioreg (keyboards, mice,
+# trackpads), and the last battery levels Logi Options+ saved for Logitech
+# devices on a USB receiver. It makes no network calls and keeps nothing.
 use strict;
 use warnings;
 use JSON::PP;
@@ -35,8 +36,25 @@ my $connected = eval { $sp->{SPBluetoothDataType}[0]{device_connected} } || [];
 my $io = run("/usr/sbin/ioreg", "-r", "-k", "BatteryPercent", "-l");
 my $io_lines = join("\n", grep { /"(?:Product|BatteryPercent|DeviceAddress)" =|\+-o / } split(/\n/, $io));
 
+# Logi Options+ records each device's last battery level in its settings
+# database (unofficial format, so failures are ignored). Read-only.
+my @logi;
+my $logi_db = "$ENV{HOME}/Library/Application Support/LogiOptionsPlus/settings.db";
+if (-r $logi_db) {
+  my $row = run("/usr/bin/sqlite3", "-readonly", $logi_db,
+    "select cast(file as text) from data order by _id desc limit 1");
+  my $settings = eval { decode_json($row) } || {};
+  for my $key (sort keys %$settings) {
+    next unless $key =~ m{^battery/([^/]+)/warning_notification$};
+    my $v = $settings->{$key};
+    next unless ref $v eq "HASH" && defined $v->{batteryLevel};
+    push @logi, { id => $1, level => $v->{batteryLevel}, time => $v->{time} };
+  }
+}
+
 my $json = JSON::PP->new->utf8->canonical->encode({
   devices => $connected,
   ioreg   => decode("UTF-8", $io_lines),
+  logi    => \@logi,
 });
 print pack("V", length($json)), $json;

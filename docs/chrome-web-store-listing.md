@@ -91,7 +91,8 @@ stored in your browser. Open a tab, get your bearings, move on.
     name isn't in the bundled dataset.
   - `nativeMessaging` — Optional. Talks to a user-installed macOS helper
     (`native/install.sh`) that reads battery levels of connected Bluetooth
-    devices. Web pages can't read these. The helper makes no network requests;
+    devices, plus the last battery levels Logi Options+ saved for Logitech
+    devices on a USB receiver. Web pages can't read these. The helper makes no network requests;
     without it the feature stays off.
   - Host `api.open-meteo.com` — current weather for the local zone (rounded
     coordinates; cached locally for 30 minutes).

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseIoreg, parseBluetooth, fetchBluetooth, HOST } from "../src/bluetooth.js";
+import { parseIoreg, parseBluetooth, parseLogi, logiName, fetchBluetooth, HOST } from "../src/bluetooth.js";
 
 const IOREG = [
   '+-o AppleDeviceManagementHIDEventService  <class X, id 0x1>',
@@ -64,4 +64,25 @@ test("fetchBluetooth: null when unsupported or helper missing, rows when install
     sendNativeMessage: (h, _m, cb) => { host = h; cb(PAYLOAD); } } };
   assert.equal((await fetchBluetooth(ok)).length, 3);
   assert.equal(host, HOST);
+});
+
+test("logiName turns Options+ ids into display names", () => {
+  assert.equal(logiName("mx-keys-s-for-mac-2b37c"), "MX Keys S for Mac");
+  assert.equal(logiName("mx-master-3s-2b034"), "MX Master 3S");
+});
+
+test("parseLogi builds rows and skips bad entries; parseBluetooth appends them", () => {
+  const logi = [
+    { id: "mx-keys-s-for-mac-2b37c", level: 80, time: "1" },
+    { id: "mx-master-3s-2b034", level: 95, time: "2" },
+    { id: "broken", level: "n/a" },
+    null,
+  ];
+  assert.deepEqual(parseLogi(logi), [
+    { name: "MX Keys S for Mac", pct: 80, kind: "keyboard" },
+    { name: "MX Master 3S", pct: 95, kind: "mouse" },
+  ]);
+  assert.deepEqual(parseLogi(undefined), []);
+  const rows = parseBluetooth({ devices: [{ Mouse: { device_batteryLevelMain: "40%" } }], logi });
+  assert.deepEqual(rows.map((r) => r.name), ["Mouse", "MX Keys S for Mac", "MX Master 3S"]);
 });

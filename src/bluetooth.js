@@ -36,10 +36,32 @@ export function parseIoreg(text) {
 function kindOf(name, minorType) {
   const s = `${name} ${minorType ?? ""}`.toLowerCase();
   if (/airpods|buds|headphone|headset|earbud/.test(s)) return "audio";
-  if (/keyboard/.test(s)) return "keyboard";
-  if (/mouse/.test(s)) return "mouse";
+  if (/keyboard|keys/.test(s)) return "keyboard";
+  if (/mouse|master|anywhere|lift/.test(s)) return "mouse";
   if (/trackpad/.test(s)) return "trackpad";
   return "other";
+}
+
+// "mx-keys-s-for-mac-2b37c" → "MX Keys S for Mac". Logi Options+ ids end with a
+// 5-character hex suffix, dropped here.
+export function logiName(id) {
+  return String(id).replace(/-[0-9a-f]{5}$/, "").split("-").map((w) => {
+    if (w === "for") return w;
+    if (w === "mx" || /\d/.test(w)) return w.toUpperCase();
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(" ");
+}
+
+// Logitech devices on a USB receiver, from the helper's Logi Options+ data.
+export function parseLogi(entries) {
+  const rows = [];
+  for (const e of entries ?? []) {
+    const pct = pctOf(e?.level);
+    if (pct === null || !e?.id) continue;
+    const name = logiName(e.id);
+    rows.push({ name, pct, kind: kindOf(name) });
+  }
+  return rows;
 }
 
 // Helper payload → rows [{name, pct, kind}] for devices that report a battery.
@@ -67,6 +89,7 @@ export function parseBluetooth(payload) {
   }
   // Earbuds appear twice (classic and BLE entries) with the same name; keep the
   // first row for each name.
+  rows.push(...parseLogi(payload?.logi));
   const seen = new Set();
   return rows.filter((r) => !seen.has(r.name) && seen.add(r.name));
 }

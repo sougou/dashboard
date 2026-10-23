@@ -89,6 +89,12 @@ to the extension through Chrome native messaging. It makes no network requests.
 3. Reload the extension and open a new tab. Devices appear under "This device"
    and refresh every 5 minutes.
 
+If Logi Options+ is installed, the helper also shows Logitech devices on a USB
+receiver (such as an MX Master mouse or MX Keys keyboard), using the last
+battery level that app saved. That level can lag the Options+ window, and
+Logitech may change the format in an update. After updating the helper, re-run
+`native/install.sh <extension-id>`.
+
 Remove it with `native/install.sh --uninstall`. Without the helper nothing
 changes. macOS doesn't report charging state for these devices, so there's no
 charging indicator on them.

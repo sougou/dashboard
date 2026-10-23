@@ -76,8 +76,10 @@ On macOS you can optionally install a small helper app (`native/install.sh`)
 so the extension can also show the battery level of connected Bluetooth
 devices, such as AirPods or a keyboard. The helper runs only on your computer,
 reads the names and battery levels of connected devices from macOS, and
-returns them to the extension through Chrome's native messaging. It makes no
-network requests and stores nothing. Without the helper, only your computer's
+returns them to the extension through Chrome's native messaging. If Logi
+Options+ is installed, it also reads the last battery levels that app saved for
+Logitech devices on a USB receiver, and nothing else from Logi's settings. It
+makes no network requests and stores nothing. Without the helper, only your computer's
 battery is shown.
 
 ## The Dashboard website
