@@ -131,8 +131,8 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
 
 - The store package never includes `native/`. The macOS helper is installed
   separately with `native/install.sh <extension-id>`, and once the listing has
-  a store ID, add that ID to `STORE_ID` in `native/install.sh` (it currently
-  holds the original Solstice listing's ID, which isn't yours).
+  a store ID, pass that ID to `native/install.sh` as well. The installer
+  allows only the IDs you give it, so Sean's original listing never has access.
 - **(you)** The privacy policy URL and website above still point at the
   original Solstice site. Replace them with a page you control before
   submitting. `PRIVACY.md` and `web/src/pages/privacy.astro` also still list

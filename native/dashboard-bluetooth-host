@@ -31,7 +31,23 @@ sub run {
 }
 
 my $sp = eval { decode_json(run("/usr/sbin/system_profiler", "SPBluetoothDataType", "-json")) } || {};
-my $connected = eval { $sp->{SPBluetoothDataType}[0]{device_connected} } || [];
+my $all = eval { $sp->{SPBluetoothDataType}[0]{device_connected} } || [];
+
+# Keep only the fields the extension uses (name, address, type, batteries);
+# system_profiler also reports serial numbers, firmware, signal strength, etc.
+my @keep = qw(device_address device_minorType device_batteryLevelMain
+              device_batteryLevelLeft device_batteryLevelRight device_batteryLevelCase);
+my @connected;
+for my $entry (@$all) {
+  next unless ref $entry eq "HASH";
+  my %out;
+  for my $name (keys %$entry) {
+    my $v = $entry->{$name};
+    next unless ref $v eq "HASH";
+    $out{$name} = { map { $_ => $v->{$_} } grep { defined $v->{$_} } @keep };
+  }
+  push @connected, \%out if %out;
+}
 
 my $io = run("/usr/sbin/ioreg", "-r", "-k", "BatteryPercent", "-l");
 my $io_lines = join("\n", grep { /"(?:Product|BatteryPercent|DeviceAddress)" =|\+-o / } split(/\n/, $io));
@@ -53,7 +69,7 @@ if (-r $logi_db) {
 }
 
 my $json = JSON::PP->new->utf8->canonical->encode({
-  devices => $connected,
+  devices => \@connected,
   ioreg   => decode("UTF-8", $io_lines),
   logi    => \@logi,
 });

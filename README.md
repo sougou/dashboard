@@ -94,8 +94,8 @@ devices, so Dashboard uses a small helper that asks macOS and hands the result
 to the extension through Chrome native messaging. It makes no network requests.
 
 1. Find the extension's ID on `chrome://extensions` (Developer mode on).
-2. Run `native/install.sh <extension-id>`. The Chrome Web Store ID is always
-   allowed; pass your own ID when running unpacked.
+2. Run `native/install.sh <extension-id>`. Only the IDs you pass can talk to
+   the helper, so pass the ID of each copy of the extension you use.
 3. Reload the extension and open a new tab. Devices appear under "This device"
    and refresh every 5 minutes.
 

@@ -4,12 +4,11 @@
 #   native/install.sh <extension-id> [<extension-id> ...]
 #
 # Find the extension ID on chrome://extensions (Developer mode on). Unpacked
-# extensions get their own ID, so pass it here. The Chrome Web Store ID is
-# always allowed. Re-run after the ID changes. Remove with --uninstall.
+# extensions get their own ID, so pass it here. Only the IDs you pass may talk
+# to the helper. Re-run after the ID changes. Remove with --uninstall.
 set -euo pipefail
 
 NAME="dev.dashboard.bluetooth"
-STORE_ID="boegcpnmpagdbebakchpambpfggghjhe"
 SRC="$(cd "$(dirname "$0")" && pwd)/dashboard-bluetooth-host"
 DEST_DIR="$HOME/Library/Application Support/Dashboard"
 DEST="$DEST_DIR/dashboard-bluetooth-host"
@@ -22,15 +21,20 @@ if [ "${1:-}" = "--uninstall" ]; then
   exit 0
 fi
 
+if [ "$#" -eq 0 ]; then
+  echo "Usage: $0 <extension-id> [<extension-id> ...] | --uninstall" >&2
+  exit 1
+fi
+
+origins=""
+for id in "$@"; do
+  [[ "$id" =~ ^[a-p]{32}$ ]] || { echo "Not an extension ID: $id" >&2; exit 1; }
+  origins="${origins:+$origins, }\"chrome-extension://$id/\""
+done
+
 mkdir -p "$DEST_DIR" "$MANIFEST_DIR"
 cp "$SRC" "$DEST"
 chmod +x "$DEST"
-
-origins="\"chrome-extension://$STORE_ID/\""
-for id in "$@"; do
-  [[ "$id" =~ ^[a-p]{32}$ ]] || { echo "Not an extension ID: $id" >&2; exit 1; }
-  origins="$origins, \"chrome-extension://$id/\""
-done
 
 cat > "$MANIFEST" <<JSON
 {
