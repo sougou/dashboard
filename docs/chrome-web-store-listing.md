@@ -89,6 +89,8 @@ stored in your browser. Open a tab, get your bearings, move on.
     geolocation is denied or unavailable (tried in order).
   - Host `geocoding-api.open-meteo.com` — city search when adding a zone whose
     name isn't in the bundled dataset.
+  - Host `api.open-meteo.com` — current weather for the local zone (rounded
+    coordinates; cached locally for 30 minutes).
 - **Data usage disclosures:** Does NOT collect or transmit personal or usage
   data. No analytics, no remote logging. A detected city and coordinates are
   cached locally for 24 hours to label the local card and calculate daylight.

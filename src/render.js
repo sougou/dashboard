@@ -5,6 +5,7 @@ import { searchCitiesRemote } from "./cityLookup.js";
 import { dstBadge } from "./dst.js";
 import { ACCENTS } from "./accent.js";
 import { THEMES } from "./theme.js";
+import { describeWeather, formatTemp, formatWind, compass } from "./weather.js";
 
 // Module-scoped remote-search state. The panel rebuilds per keystroke; this
 // state survives across renders so the debounce timer and abort controller
@@ -60,6 +61,44 @@ function clockInner(t, ss) {
   return `${t.hm.replace(":", '<i class="cl">:</i>')}` +
     `<span class="rt"><span class="secs">:${ss}</span>` +
     `<sub class="ap">${t.ap}</sub></span>`;
+}
+
+// Weather panel shown beside the big clock; clicking the temperature toggles
+// °C/°F. Null until a fetch succeeds.
+function weatherEl(ctx) {
+  const w = ctx && ctx.weather;
+  const d = w && describeWeather(w.code, w.isDay);
+  if (!d) return null;
+  const u = ctx.tempUnit;
+  const el = document.createElement("div");
+  el.className = "wx";
+  const head = document.createElement("button");
+  head.className = "wx-temp";
+  head.title = `Switch to °${u === "F" ? "C" : "F"}`;
+  head.textContent = formatTemp(w.tempC, u);
+  head.addEventListener("click", () => ctx.onTempUnit());
+  const cond = document.createElement("div");
+  cond.className = "wx-cond";
+  cond.textContent = `${d.glyph} ${d.label}`;
+  const list = document.createElement("dl");
+  list.className = "wx-details";
+  const rows = [
+    ["Feels like", w.feelsC != null && formatTemp(w.feelsC, u)],
+    ["Wind", w.windKmh != null &&
+      `${formatWind(w.windKmh, u)} ${compass(w.windDeg)}`.trim()],
+    ["Humidity", w.humidity != null && `${Math.round(w.humidity)}%`],
+    ["Cloud cover", w.cloud != null && `${Math.round(w.cloud)}%`],
+  ];
+  for (const [k, v] of rows) {
+    if (!v) continue;
+    const dt = document.createElement("dt");
+    dt.textContent = k;
+    const dd = document.createElement("dd");
+    dd.textContent = v;
+    list.append(dt, dd);
+  }
+  el.append(head, cond, list);
+  return el;
 }
 
 function fullDate(now) {
@@ -579,6 +618,14 @@ export function renderLive(model, liveEl, now, ctx) {
     clock.innerHTML = `<div class="kicker">LOCAL TIME</div>` + bigHtml;
   }
   refs.clockBig = clock.querySelector(".big");
+  const wx = weatherEl(ctx);
+  if (wx) {
+    // Weather sits beside the big clock; the row wraps below it on narrow screens.
+    const row = document.createElement("div");
+    row.className = "clock-row";
+    refs.clockBig.replaceWith(row);
+    row.append(refs.clockBig, wx);
+  }
   liveEl.appendChild(clock);
 
   if (!soloZone) {

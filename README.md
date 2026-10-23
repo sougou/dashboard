@@ -69,6 +69,10 @@ Click **Edit** (bottom-right) to open the panel:
   resolve instantly; anything else falls back to a free geocoding lookup so
   you can add essentially any city on earth.
 
+The big local clock has the current weather beside it: temperature, conditions,
+feels-like, wind, humidity, and cloud cover (click the temperature to switch
+°C/°F). It uses Open-Meteo and is not shown on the website.
+
 Your local card is anchored first and labels itself with your city
 automatically. Don't like the guess? Type your own home label and it sticks.
 
