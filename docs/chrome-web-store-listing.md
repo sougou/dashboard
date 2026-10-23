@@ -27,7 +27,7 @@ Contains only runtime files, icons, and the bundled font — no docs, tests, scr
 - **Summary** (short description, ≤132 chars) — NOT editable in the dashboard;
   it is read from `manifest.json`'s `description`, so changing it means a new
   package upload:
-  `A calm new tab that visualizes daylight and working hours across all your time zones, at a glance.`
+  `A calm new tab with a clock for every time zone, daylight at a glance, local weather, and battery levels for your devices.`
 - **Category:** Functionality & UI _(alternate: Workflow & Planning)_ — new-tab
   overrides cluster here, which helps the "similar extensions" rail surface
   Dashboard alongside peers. Reversible post-launch.
