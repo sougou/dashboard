@@ -73,6 +73,26 @@ The big local clock has the current weather beside it: temperature, conditions,
 feels-like, wind, humidity, and cloud cover (click the temperature to switch
 °C/°F). It uses Open-Meteo and is not shown on the website.
 
+Beneath it, a "This device" row shows the battery level, charging state, and
+time remaining (Chrome's Battery Status API). It reads only the computer
+running the browser and stays local.
+
+### Bluetooth device batteries (macOS, optional)
+
+Chrome can't read the battery of AirPods, keyboards, or other Bluetooth
+devices, so Dashboard uses a small helper that asks macOS and hands the result
+to the extension through Chrome native messaging. It makes no network requests.
+
+1. Find the extension's ID on `chrome://extensions` (Developer mode on).
+2. Run `native/install.sh <extension-id>`. The Chrome Web Store ID is always
+   allowed; pass your own ID when running unpacked.
+3. Reload the extension and open a new tab. Devices appear under "This device"
+   and refresh every 5 minutes.
+
+Remove it with `native/install.sh --uninstall`. Without the helper nothing
+changes. macOS doesn't report charging state for these devices, so there's no
+charging indicator on them.
+
 Your local card is anchored first and labels itself with your city
 automatically. Don't like the guess? Type your own home label and it sticks.
 

@@ -5,6 +5,7 @@ import { searchCitiesRemote } from "./cityLookup.js";
 import { dstBadge } from "./dst.js";
 import { ACCENTS } from "./accent.js";
 import { THEMES } from "./theme.js";
+import { batteryNote } from "./battery.js";
 import { describeWeather, formatTemp, formatWind, compass } from "./weather.js";
 
 // Module-scoped remote-search state. The panel rebuilds per keystroke; this
@@ -98,6 +99,54 @@ function weatherEl(ctx) {
     list.append(dt, dd);
   }
   el.append(head, cond, list);
+  return el;
+}
+
+const DEVICE_GLYPH = {
+  audio: "🎧", case: "🔋", keyboard: "⌨", mouse: "🖱", trackpad: "▭", other: "ᛒ",
+};
+
+// One widget-style row: icon, name, percentage, battery gauge.
+function batteryRow(glyph, name, pct, { charging = false } = {}) {
+  const row = document.createElement("div");
+  row.className = "bat-row" + (charging ? " charging" : "") +
+    (!charging && pct <= 20 ? " low" : "");
+  const g = document.createElement("span");
+  g.className = "bat-glyph";
+  g.setAttribute("aria-hidden", "true");
+  g.textContent = glyph;
+  const n = document.createElement("span");
+  n.className = "bat-name";
+  n.textContent = name;
+  const p = document.createElement("span");
+  p.className = "bat-pct";
+  p.textContent = `${pct}%`;
+  const icon = document.createElement("span");
+  icon.className = "bat-icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.innerHTML = `<i style="width:${pct}%"></i>`;
+  row.append(g, n, p, icon);
+  return row;
+}
+
+// Battery panel: this device (Battery Status API) then connected Bluetooth
+// devices (native helper), styled like the macOS battery widget.
+function batteryEl(ctx) {
+  const b = ctx && ctx.battery;
+  const devices = (ctx && ctx.devices) || [];
+  if (!b && !devices.length) return null;
+  const el = document.createElement("div");
+  el.className = "bat";
+  if (b) {
+    el.appendChild(batteryRow("💻", "This device", b.pct, { charging: b.charging }));
+    const note = document.createElement("div");
+    note.className = "bat-note";
+    note.textContent = batteryNote(b);
+    el.appendChild(note);
+  }
+  for (const d of devices) {
+    el.appendChild(batteryRow(DEVICE_GLYPH[d.kind] || DEVICE_GLYPH.other, d.name, d.pct));
+  }
   return el;
 }
 
@@ -618,13 +667,18 @@ export function renderLive(model, liveEl, now, ctx) {
     clock.innerHTML = `<div class="kicker">LOCAL TIME</div>` + bigHtml;
   }
   refs.clockBig = clock.querySelector(".big");
-  const wx = weatherEl(ctx);
-  if (wx) {
-    // Weather sits beside the big clock; the row wraps below it on narrow screens.
+  const side = [weatherEl(ctx), batteryEl(ctx)].filter(Boolean);
+  if (side.length) {
+    // Weather and battery are columns beside the big clock; the row wraps below it on narrow screens.
     const row = document.createElement("div");
     row.className = "clock-row";
+    // Keep the "LOCAL TIME" kicker centered over the clock, not the whole row.
+    const main = document.createElement("div");
+    main.className = "clock-main";
+    const kicker = clock.querySelector(".kicker");
     refs.clockBig.replaceWith(row);
-    row.append(refs.clockBig, wx);
+    main.append(...(kicker ? [kicker] : []), refs.clockBig);
+    row.append(main, ...side);
   }
   liveEl.appendChild(clock);
 

@@ -9,6 +9,8 @@ import {
 } from "./src/geo.js";
 import { CITIES } from "./cities.js";
 import { normalizeAccent } from "./src/accent.js";
+import { watchBattery } from "./src/battery.js";
+import { fetchBluetooth } from "./src/bluetooth.js";
 import { resolveUnit, writeUnit, refreshWeather } from "./src/weather.js";
 import { normalizeTheme, resolveTheme } from "./src/theme.js";
 
@@ -51,6 +53,8 @@ let localLabel = resolveLocalLabel(store, null);
 // Local card's sun bands: detected coords, else coords from the system timezone.
 let localCoords = localCoordsNow();
 let weather = null;
+let battery = null;
+let devices = [];
 let tempUnit = resolveUnit(store, navigator.language);
 let timeFmt = store.getItem("timeFmt") === "24" ? "24" : "12"; // default 12h
 let accent = normalizeAccent(store.getItem("accent"));
@@ -79,6 +83,8 @@ function ctx() {
       paintLive();
     },
     weather,
+    battery,
+    devices,
     tempUnit,
     onTempUnit() {
       tempUnit = tempUnit === "F" ? "C" : "F";
@@ -257,6 +263,16 @@ async function refreshWx() {
 
 paintBar();
 paintLive();
+// Battery status is read locally from the browser; skipped on the website.
+if (detect) watchBattery((s) => { battery = s; paintLive(); });
+// Bluetooth devices come from an optional macOS helper (native/); no helper, no rows.
+async function refreshDevices() {
+  if (!detect) return;
+  const rows = await fetchBluetooth();
+  if (rows) { devices = rows; paintLive(); }
+}
+refreshDevices();
+setInterval(refreshDevices, 5 * 60 * 1000);
 refreshWx();
 setInterval(refreshWx, 30 * 60 * 1000);
 setInterval(tick, 1000);

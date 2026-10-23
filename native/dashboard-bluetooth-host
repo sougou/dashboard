@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+# Native messaging host for Dashboard (macOS). Chrome extensions can't read
+# Bluetooth device batteries, so this helper reads them from the system and
+# returns only what the extension needs: connected Bluetooth devices from
+# system_profiler, plus accessory battery percentages from ioreg (keyboards,
+# mice, trackpads). It makes no network calls and keeps nothing.
+use strict;
+use warnings;
+use JSON::PP;
+use Encode qw(decode);
+
+binmode STDIN;
+binmode STDOUT;
+
+# Native messaging frames messages with a 4-byte little-endian length. Read and
+# discard the request; there is only one kind.
+my $hdr;
+if (read(STDIN, $hdr, 4) == 4) {
+  my $len = unpack("V", $hdr);
+  my $buf;
+  read(STDIN, $buf, $len) if $len;
+}
+
+sub run {
+  open(my $fh, "-|", @_) or return "";
+  local $/;
+  my $out = <$fh>;
+  close $fh;
+  return defined $out ? $out : "";
+}
+
+my $sp = eval { decode_json(run("/usr/sbin/system_profiler", "SPBluetoothDataType", "-json")) } || {};
+my $connected = eval { $sp->{SPBluetoothDataType}[0]{device_connected} } || [];
+
+my $io = run("/usr/sbin/ioreg", "-r", "-k", "BatteryPercent", "-l");
+my $io_lines = join("\n", grep { /"(?:Product|BatteryPercent|DeviceAddress)" =|\+-o / } split(/\n/, $io));
+
+my $json = JSON::PP->new->utf8->canonical->encode({
+  devices => $connected,
+  ioreg   => decode("UTF-8", $io_lines),
+});
+print pack("V", length($json)), $json;

@@ -67,6 +67,19 @@ sent to Open-Meteo's free forecast API. The result is cached locally for 30
 minutes, and your °C/°F choice is stored locally. If the request fails, no
 weather is shown.
 
+## Battery and Bluetooth devices
+
+The extension shows your computer's battery level using Chrome's built-in
+Battery Status API. This is read locally and never sent anywhere.
+
+On macOS you can optionally install a small helper app (`native/install.sh`)
+so the extension can also show the battery level of connected Bluetooth
+devices, such as AirPods or a keyboard. The helper runs only on your computer,
+reads the names and battery levels of connected devices from macOS, and
+returns them to the extension through Chrome's native messaging. It makes no
+network requests and stores nothing. Without the helper, only your computer's
+battery is shown.
+
 ## The Dashboard website
 
 The website at https://solstice.seanoliver.dev runs the same new tab in your
@@ -79,7 +92,7 @@ browser, so you can try and customize it without installing anything.
   Geolocation and never makes an IP lookup. The local card uses your system
   timezone, or a home label you type.
 - City search works as described above: your search text goes to Open-Meteo.
-- The website does not show local weather and sends no coordinates.
+- The website does not show local weather or battery levels and sends no coordinates.
 - The site is hosted on Vercel, which receives standard request data such as
   your IP address when you load the page. The site has no analytics.
 
@@ -103,6 +116,8 @@ or browsing history, because it has none.
 - **`geolocation`** — used solely to label your local card with a city and
   calculate its daylight accurately. You can deny it; the extension falls back
   to IP or timezone city.
+- **`nativeMessaging`** — used solely to talk to the optional macOS helper that
+  reads Bluetooth device battery levels. Nothing happens unless you install it.
 - **Host permissions** for the six domains listed above — required so the
   extension may contact those geolocation, geocoding, and weather APIs.
 

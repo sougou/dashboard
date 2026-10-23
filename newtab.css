@@ -99,9 +99,10 @@ body { margin:0; min-height:100vh; background:var(--bg); color:var(--txt);
   margin:0 0 0 .6rem; }
 .big .ap { font-size:1.4rem; color:var(--muted); letter-spacing:.06em; }
 .clock-row { display:flex; align-items:center; justify-content:center;
-  flex-wrap:wrap; gap:1rem 3.5rem; }
-.wx { display:flex; flex-direction:column; gap:.55rem; padding-left:3rem;
-  border-left:1px solid var(--border);
+  flex-wrap:wrap; gap:1.2rem 2.2rem; }
+.clock-main { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+.wx, .bat { padding-left:2.2rem; border-left:1px solid var(--border); }
+.wx { display:flex; flex-direction:column; gap:.55rem;
   font:13px/1.2 "JetBrains Mono",ui-monospace,Menlo,monospace; }
 .wx-temp { align-self:flex-start; background:transparent; border:0; padding:0;
   cursor:pointer; color:var(--txt); letter-spacing:-.02em;
@@ -112,9 +113,26 @@ body { margin:0; min-height:100vh; background:var(--bg); color:var(--txt);
   margin:.3rem 0 0; color:var(--muted); }
 .wx-details dt { text-transform:uppercase; letter-spacing:.1em; font-size:11px; }
 .wx-details dd { margin:0; color:var(--txt); }
+.bat { font:13px/1.2 "JetBrains Mono",ui-monospace,Menlo,monospace;
+  display:flex; flex-direction:column; gap:.7rem; }
+.bat { min-width:17rem; }
+.bat-row { display:flex; align-items:center; gap:.8rem; }
+.bat-glyph { width:1.4rem; text-align:center; color:var(--muted); }
+.bat-name { flex:1; color:var(--txt); }
+.bat-pct { color:var(--muted); }
+.bat-icon { position:relative; width:26px; height:12px; border:1.5px solid var(--muted);
+  border-radius:3.5px; padding:1.5px; box-sizing:border-box; flex:none; }
+.bat-icon::after { content:""; position:absolute; right:-4px; top:2.5px; width:2px;
+  height:4px; border-radius:0 1px 1px 0; background:var(--muted); }
+.bat-icon i { display:block; height:100%; border-radius:1.5px; background:#30d158; }
+.bat-row.charging .bat-icon i { background:var(--accent); }
+.bat-row.low .bat-icon i { background:#ff453a; }
+.bat-note { margin:-.35rem 0 .2rem 2.2rem; color:var(--muted); font-size:12px; }
 @media (max-width: 900px) {
-  .wx { padding-left:0; border-left:0; align-items:center; }
+  .wx, .bat { padding-left:0; border-left:0; }
+  .wx { align-items:center; text-align:center; }
   .wx-temp { align-self:center; }
+  .bat { align-self:stretch; text-align:left; }
 }
 .big .secs { font:.95rem/1 "JetBrains Mono",ui-monospace,Menlo,monospace;
   color:var(--accent); letter-spacing:.06em; }

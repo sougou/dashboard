@@ -109,6 +109,22 @@ import { CHROME_STORE_URL as chromeStoreUrl, GITHUB_URL as githubUrl } from "../
         If the request fails, no weather is shown.
       </p>
 
+      <h2>Battery and Bluetooth devices</h2>
+      <p>
+        The extension shows your computer's battery level using Chrome's
+        built-in Battery Status API. This is read locally and never sent
+        anywhere.
+      </p>
+      <p>
+        On macOS you can optionally install a small helper app so the extension
+        can also show the battery level of connected Bluetooth devices, such as
+        AirPods or a keyboard. The helper runs only on your computer, reads the
+        names and battery levels of connected devices from macOS, and returns
+        them to the extension through Chrome's native messaging. It makes no
+        network requests and stores nothing. Without the helper, only your
+        computer's battery is shown.
+      </p>
+
       <h2>The Dashboard website</h2>
       <p>
         This website runs the same new tab in your browser, so you can try and
@@ -126,7 +142,7 @@ import { CHROME_STORE_URL as chromeStoreUrl, GITHUB_URL as githubUrl } from "../
           your system time zone, or a home label you type.
         </li>
         <li>City search works as described above: your search text goes to Open-Meteo.</li>
-        <li>The website does not show local weather and sends no coordinates.</li>
+        <li>The website does not show local weather or battery levels and sends no coordinates.</li>
         <li>
           The site is hosted on Vercel, which receives standard request data
           such as your IP address when you load the page. The site has no

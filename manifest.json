@@ -11,7 +11,7 @@
     "48": "assets/icons/icon-48.png",
     "128": "assets/icons/icon-128.png"
   },
-  "permissions": ["geolocation"],
+  "permissions": ["geolocation", "nativeMessaging"],
   "host_permissions": [
     "https://api.bigdatacloud.net/*",
     "https://ipwho.is/*",
