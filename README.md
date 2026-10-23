@@ -9,9 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://chromewebstore.google.com/detail/solstice/boegcpnmpagdbebakchpambpfggghjhe"><strong>Install from the Chrome Web Store</strong></a>
-  ·
-  <a href="https://solstice.seanoliver.dev">Website</a>
+  Based on <a href="https://github.com/seanoliver/solstice"><strong>Solstice</strong></a> by Sean Oliver
 </p>
 
 <p align="center">
@@ -25,6 +23,18 @@ where the sun actually is — so you can tell, without doing the math, who's
 asleep, who's mid-morning, and who's wrapping up their day.
 
 No accounts, no feeds, no clutter. Open a tab, get your bearings, move on.
+
+> **Credit.** Dashboard is a fork of
+> [Solstice](https://github.com/seanoliver/solstice), created by
+> [Sean Oliver](https://github.com/seanoliver). The time zone cards, daylight
+> bands, timeline scrubbing, edit panel, and the website are his work, and this
+> project's git history keeps his commits. Dashboard adds local weather and
+> battery panels on top. Sean isn't involved in this fork and isn't responsible
+> for the changes made here. See [License](#license).
+
+> **Read the [disclaimers](#disclaimers) before installing.** This fork asks for
+> more access than the original and includes an optional helper that runs
+> outside Chrome.
 
 ## Why you might like it
 
@@ -119,11 +129,41 @@ London, tomorrow morning in Tokyo. Times snap to the quarter-hour as you go.
 The page freezes while you explore, with a **⏸** pill up top showing the
 moment you're parked at. Click it — or press **Esc** — to drop back to now.
 
+## Disclaimers
+
+Dashboard is a personal project, provided as is with no warranty. It is not
+affiliated with or endorsed by Sean Oliver, Logitech, Apple, Open-Meteo, or any
+other company named here. It is also more intrusive than a typical new-tab
+extension, so know what it does before you install it:
+
+- **It replaces your new tab page** and runs on every new tab you open.
+- **Location.** It can ask for your browser's geolocation. If you allow it,
+  your precise coordinates go to BigDataCloud to look up a city name. If you
+  deny it, your IP address goes to ipwho.is, ipapi.co, or get.geojs.io instead.
+- **Weather.** Your local zone's coordinates (rounded to about a kilometre) go
+  to Open-Meteo every 30 minutes. Search text for city lookups goes to
+  Open-Meteo too.
+- **Battery.** "This device" uses Chrome's Battery Status API. It stays local.
+- **Broad permissions.** `geolocation`, `nativeMessaging`, and host access to
+  six domains (see `manifest.json`). Chrome will warn about some of them.
+- **The macOS helper is optional and is native code.** `native/install.sh`
+  installs a Perl script that Chrome launches **outside its sandbox, with your
+  user's privileges**. It reads connected Bluetooth devices and their
+  batteries from `system_profiler` and `ioreg`, and, if Logi Options+ is
+  installed, the last battery levels in its settings database. It makes no
+  network requests and stores nothing, but you should read `native/` before
+  running it. Only the extension IDs you pass to the installer may talk to it.
+  Remove it with `native/install.sh --uninstall`.
+- **Unofficial data sources.** The Logitech levels come from Logi Options+'s
+  internal files and may be stale or stop working after an update. Nothing
+  here is supported by Logitech or Apple.
+- **Not for shared or managed machines.** This is meant for devices you own.
+  Review [PRIVACY.md](PRIVACY.md) for the full data flow.
+
 ## Install
 
-**[Add Dashboard from the Chrome Web Store](https://chromewebstore.google.com/detail/solstice/boegcpnmpagdbebakchpambpfggghjhe)** — then open a new tab.
-
-Or load it unpacked for development:
+Dashboard is distributed privately; there is no public Chrome Web Store
+listing. To load it unpacked:
 
 1. Clone or download this repo.
 2. Open `chrome://extensions` and enable **Developer mode** (top right).
@@ -190,4 +230,6 @@ Contributions welcome — see [docs/ROADMAP.md](docs/ROADMAP.md) for ideas.
 
 ## License
 
-[MIT](LICENSE) © Sean Oliver
+[MIT](LICENSE). Copyright © 2026 Sean Oliver (original Solstice) and © 2026
+Sugu Sougoumarane (Dashboard changes). The MIT license requires keeping both
+notices.

@@ -23,7 +23,7 @@ app.append(editbar, live, githubLink());
 function githubLink() {
   const a = document.createElement("a");
   a.className = "gh-link";
-  a.href = "https://github.com/seanoliver/solstice";
+  a.href = "https://github.com/sougou/dashboard";
   a.target = "_blank";
   a.rel = "noopener noreferrer";
   a.title = "Star this project on GitHub";

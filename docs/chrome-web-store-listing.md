@@ -2,7 +2,8 @@
 
 Everything needed to publish Dashboard. Copy/paste the listing fields, upload
 the prepared assets, and follow the submission steps. Items marked **(you)**
-require Sean's developer account and can't be automated.
+require your own Chrome Web Store developer account and can't be automated.
+This fork is meant for **private distribution** (see "Private distribution" below).
 
 ## Package
 
@@ -51,11 +52,21 @@ already into their evening.
   choose from five accent colors.
 • Yours in seconds: add or remove cities, drag to reorder, rename a zone to a
   person's name, and switch between 12h and 24h.
+• Local weather: temperature, conditions, wind, humidity, and cloud cover for
+  your local zone, beside the big clock.
+• Battery: this computer's battery, plus (macOS, optional helper) connected
+  Bluetooth devices and Logitech devices on a USB receiver.
 • Quiet by design: muted palette, monospace numerals, nothing blinking for
   your attention.
 
 Dashboard has no accounts, feeds, analytics, or tracking. Your settings are
 stored in your browser. Open a tab, get your bearings, move on.
+
+Before you install: Dashboard replaces your new tab, can use your location, and
+sends rounded coordinates to Open-Meteo for weather. The optional macOS helper
+is native code that runs outside Chrome with your user's privileges. It is a
+personal project based on Solstice by Sean Oliver, is not affiliated with him
+or with Logitech or Apple, and is provided as is. See the README disclaimers.
 ```
 
 ## Assets (all prepared in `assets/store/`)
@@ -111,10 +122,23 @@ stored in your browser. Open a tab, get your bearings, move on.
    2–3 screenshots (and the promo tile if you want).
 4. Fill the **Privacy practices** tab with the single-purpose statement, the
    per-permission justifications, the data-usage disclosures, and the policy URL.
-5. Set **Distribution** (Public) and visibility.
+5. Set **Distribution** to **Private** (trusted testers, by Google account) or **Unlisted**, not Public.
 6. **Submit for review.** New-tab overrides get extra scrutiny — review can take
    a few days. If rejected, the reason is usually a permission justification;
    tighten the wording above and resubmit.
+
+## Private distribution
+
+- The store package never includes `native/`. The macOS helper is installed
+  separately with `native/install.sh <extension-id>`, and once the listing has
+  a store ID, add that ID to `STORE_ID` in `native/install.sh` (it currently
+  holds the original Solstice listing's ID, which isn't yours).
+- **(you)** The privacy policy URL and website above still point at the
+  original Solstice site. Replace them with a page you control before
+  submitting. `PRIVACY.md` and `web/src/pages/privacy.astro` also still list
+  the original contact email.
+- Keep the README disclaimers and the paragraph in the description; they are
+  what reviewers and testers see about the extension's reach.
 
 ## Notes
 
