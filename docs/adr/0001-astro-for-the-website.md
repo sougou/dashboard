@@ -7,7 +7,7 @@
 
 ## Context
 
-Solstice needs a fast, search-friendly landing page now and may later add interactive time-and-daylight tools. The Chrome extension is a no-build vanilla JavaScript project and must remain independently packageable.
+Dashboard needs a fast, search-friendly landing page now and may later add interactive time-and-daylight tools. The Chrome extension is a no-build vanilla JavaScript project and must remain independently packageable.
 
 ## Decision
 
@@ -21,7 +21,7 @@ Next.js provides a strong full-stack React platform, but React, server/client co
 
 ### SvelteKit
 
-SvelteKit is a strong candidate for a highly interactive Solstice web app. It was not chosen because the first release is content-first; Astro can still host Svelte islands if an interactive feature benefits from Svelte later.
+SvelteKit is a strong candidate for a highly interactive Dashboard web app. It was not chosen because the first release is content-first; Astro can still host Svelte islands if an interactive feature benefits from Svelte later.
 
 ### Handwritten static HTML
 

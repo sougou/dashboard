@@ -7,7 +7,7 @@
 
 ## Context
 
-The website's home page should be Solstice itself: the same new tab, customizable, with an Add to Chrome call to action. It must look identical to the extension. The extension already runs on plain web APIs (`localStorage`, `fetch`, `navigator.geolocation`) and uses no `chrome.*` API, so its new tab works as an ordinary web page.
+The website's home page should be Dashboard itself: the same new tab, customizable, with an Add to Chrome call to action. It must look identical to the extension. The extension already runs on plain web APIs (`localStorage`, `fetch`, `navigator.geolocation`) and uses no `chrome.*` API, so its new tab works as an ordinary web page.
 
 ## Decision
 

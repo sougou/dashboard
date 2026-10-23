@@ -1,10 +1,10 @@
-# Solstice
+# Dashboard
 
 The shared language for a calm view of time across the places and people someone cares about.
 
 ## Language
 
-**Solstice**:
+**Dashboard**:
 The product as a whole, including its extension and website.
 _Avoid_: World clock extension when referring to the whole product
 
@@ -13,7 +13,7 @@ The Chrome new-tab experience that shows the user's zones, daylight, working hou
 _Avoid_: Website, landing page
 
 **Website**:
-Solstice's public web presence. Its home page runs the extension's new tab in the browser, with an Add to Chrome call to action. It may contain other interactive tools over time.
+Dashboard's public web presence. Its home page runs the extension's new tab in the browser, with an Add to Chrome call to action. It may contain other interactive tools over time.
 _Avoid_: Marketing site, web app when referring to the whole site
 
 **Web app**:

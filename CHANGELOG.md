@@ -1,6 +1,6 @@
 # Changelog
 
-Chrome Web Store releases of the Solstice extension. The website deploys
+Chrome Web Store releases of the Dashboard extension. The website deploys
 separately and is not versioned here.
 
 ## Unreleased
@@ -25,7 +25,7 @@ separately and is not versioned here.
   example `−1h in 4d`. Hover for the date.
 - When your location can't be detected, the local card's daylight comes from
   your system time zone. It used to show New York's.
-- Solstice keeps working when the browser blocks site storage. Settings last
+- Dashboard keeps working when the browser blocks site storage. Settings last
   until the tab closes.
 - The store listing's homepage link now points to
   https://solstice.seanoliver.dev.

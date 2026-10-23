@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Solstice",
+  "name": "Dashboard",
   "version": "1.2.0",
   "description": "A calm new tab that visualizes daylight and working hours across all your time zones, at a glance.",
   "author": "Sean Oliver",

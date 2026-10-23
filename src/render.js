@@ -531,7 +531,7 @@ export function renderLive(model, liveEl, now, ctx) {
   top.className = "topbar";
   const brand = document.createElement("span");
   brand.className = "brand";
-  brand.innerHTML = `<i></i>SOLSTICE`;
+  brand.innerHTML = `<i></i>DASHBOARD`;
   const right = document.createElement("div");
   right.className = "topright";
   const today = document.createElement("span");

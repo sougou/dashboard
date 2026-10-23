@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/icons/icon-128.png" width="96" height="96" alt="Solstice icon" />
+  <img src="assets/icons/icon-128.png" width="96" height="96" alt="Dashboard icon" />
 </p>
 
-<h1 align="center">Solstice</h1>
+<h1 align="center">Dashboard</h1>
 
 <p align="center">
   A calm new tab that shows your timezones at a glance — with day and night at each.
@@ -15,10 +15,10 @@
 </p>
 
 <p align="center">
-  <img src="assets/screenshots/hero.png" width="820" alt="Solstice new tab — a big local clock above a row of timezone cards and a 24-hour timeline" />
+  <img src="assets/screenshots/hero.png" width="820" alt="Dashboard new tab — a big local clock above a row of timezone cards and a 24-hour timeline" />
 </p>
 
-Solstice replaces Chrome's new tab with a single, quiet world clock. A big
+Dashboard replaces Chrome's new tab with a single, quiet world clock. A big
 local time up top, a card for every place you care about, and a 24-hour
 timeline that makes the whole day legible at once. Each clock is shaded by
 where the sun actually is — so you can tell, without doing the math, who's
@@ -56,7 +56,7 @@ small `+1` / `−1` chip.
 ## Edit your zones
 
 <p align="center">
-  <img src="assets/screenshots/edit.png" width="820" alt="Solstice edit panel — reorder, rename, remove zones, and search to add any city" />
+  <img src="assets/screenshots/edit.png" width="820" alt="Dashboard edit panel — reorder, rename, remove zones, and search to add any city" />
 </p>
 
 Click **Edit** (bottom-right) to open the panel:
@@ -78,7 +78,7 @@ once. Everything you change persists locally between tabs.
 ## Scrub to any moment
 
 <p align="center">
-  <img src="assets/screenshots/scrub.png" width="820" alt="Solstice scrubbed to 4:30 PM — the big clock, every card, and every timeline frozen at the same instant, with a pause pill in the top-right showing the scrubbed time" />
+  <img src="assets/screenshots/scrub.png" width="820" alt="Dashboard scrubbed to 4:30 PM — the big clock, every card, and every timeline frozen at the same instant, with a pause pill in the top-right showing the scrubbed time" />
 </p>
 
 Planning a call? Grab the marker on any timeline row and drag. The big local
@@ -91,7 +91,7 @@ moment you're parked at. Click it — or press **Esc** — to drop back to now.
 
 ## Install
 
-**[Add Solstice from the Chrome Web Store](https://chromewebstore.google.com/detail/solstice/boegcpnmpagdbebakchpambpfggghjhe)** — then open a new tab.
+**[Add Dashboard from the Chrome Web Store](https://chromewebstore.google.com/detail/solstice/boegcpnmpagdbebakchpambpfggghjhe)** — then open a new tab.
 
 Or load it unpacked for development:
 

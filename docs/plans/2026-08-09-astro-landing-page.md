@@ -7,7 +7,7 @@
 
 ## Goal
 
-Add a lightweight public website that explains Solstice, tours its core features, answers common questions, and sends visitors to the Chrome Web Store.
+Add a lightweight public website that explains Dashboard, tours its core features, answers common questions, and sends visitors to the Chrome Web Store.
 
 ## Constraints
 

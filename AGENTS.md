@@ -2,7 +2,7 @@
 
 ## Project shape
 
-Solstice has two independently shipped surfaces:
+Dashboard has two independently shipped surfaces:
 
 - The repository root is a no-build Chrome new-tab extension written in vanilla ES modules.
 - `web/` is the Astro website. Keep its dependencies and build output isolated from the extension.

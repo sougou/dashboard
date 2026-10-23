@@ -1,12 +1,12 @@
 # Roadmap
 
-Where Solstice is headed, in order. Work status lives in the linked GitHub
+Where Dashboard is headed, in order. Work status lives in the linked GitHub
 issues. This file records the order and the reasons for it. Contributions
 welcome.
 
 _Last reviewed: 2026-09-29._
 
-Solstice is built for daily, glance-at-it use in a new tab. The roadmap favors
+Dashboard is built for daily, glance-at-it use in a new tab. The roadmap favors
 what makes that glance more useful or calmer.
 
 ## Now
@@ -35,7 +35,7 @@ Pick up the small fixes in [#21](https://github.com/seanoliver/solstice/issues/2
 
 - Cross-machine account sync (export/import covers the real need).
 - Calendar integration or event awareness (large scope; a different product).
-- A mobile app (Solstice is a new-tab extension by design).
+- A mobile app (Dashboard is a new-tab extension by design).
 
 ## Shipped
 

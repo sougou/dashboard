@@ -2,12 +2,12 @@
 
 _Last updated: 2026-09-28_
 
-Solstice is a Chrome new-tab extension that displays a world clock, and a
+Dashboard is a Chrome new-tab extension that displays a world clock, and a
 website that runs the same page in your browser. The extension has
 **no servers, no accounts, no analytics, no tracking, and no advertising.**
 Neither the extension nor the website sends your settings or location to the
 developer. The website is served by Vercel, which receives standard request
-data (see "The Solstice website" below).
+data (see "The Dashboard website" below).
 
 This document describes exactly what the extension does with information,
 because it requests location access and contacts a few third-party
@@ -38,7 +38,7 @@ the extension tries, in order:
 2. **Your browser's Geolocation** — only if you grant the permission Chrome
    prompts for. Your approximate coordinates are sent **once** to
    BigDataCloud's reverse-geocoding API to turn them into a city name. The
-   city name and coordinates are cached locally for 24 hours so Solstice can
+   city name and coordinates are cached locally for 24 hours so Dashboard can
    calculate accurate sunrise/sunset times without asking again. They are not
    sent anywhere else.
 3. **Approximate IP-based location** — used only if Geolocation is denied
@@ -59,7 +59,7 @@ When you search for a city to add, your search text is sent to Open-Meteo's
 free geocoding API to return matching cities and their coordinates. The
 query is only sent while you are actively typing in the add-city box.
 
-## The Solstice website
+## The Dashboard website
 
 The website at https://solstice.seanoliver.dev runs the same new tab in your
 browser, so you can try and customize it without installing anything.

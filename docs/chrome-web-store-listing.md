@@ -1,19 +1,19 @@
 # Chrome Web Store — listing copy & submission guide
 
-Everything needed to publish Solstice. Copy/paste the listing fields, upload
+Everything needed to publish Dashboard. Copy/paste the listing fields, upload
 the prepared assets, and follow the submission steps. Items marked **(you)**
 require Sean's developer account and can't be automated.
 
 ## Package
 
-Upload artifact: `solstice-<version>.zip` (repo root, git-ignored — rebuild
+Upload artifact: `dashboard-<version>.zip` (repo root, git-ignored — rebuild
 any time; the version is read from `manifest.json`, which must be bumped
 before each upload):
 
 ```bash
 V=$(python3 -c "import json; print(json.load(open('manifest.json'))['version'])")
-rm -f solstice-*.zip
-zip -rq "solstice-$V.zip" \
+rm -f dashboard-*.zip
+zip -rq "dashboard-$V.zip" \
   manifest.json newtab.html newtab.css newtab.js config.js cities.js \
   src assets/icons -x '*.DS_Store'
 ```
@@ -22,20 +22,20 @@ Contains only runtime files + icons — no docs, tests, screenshots, or README.
 
 ## Listing fields
 
-- **Name:** `Solstice`
+- **Name:** `Dashboard`
 - **Summary** (short description, ≤132 chars) — NOT editable in the dashboard;
   it is read from `manifest.json`'s `description`, so changing it means a new
   package upload:
   `A calm new tab that visualizes daylight and working hours across all your time zones, at a glance.`
 - **Category:** Functionality & UI _(alternate: Workflow & Planning)_ — new-tab
   overrides cluster here, which helps the "similar extensions" rail surface
-  Solstice alongside peers. Reversible post-launch.
+  Dashboard alongside peers. Reversible post-launch.
 - **Language:** English
 
 ### Detailed description
 
 ```
-Solstice turns your new tab into a calm map of time: a big local clock up top,
+Dashboard turns your new tab into a calm map of time: a big local clock up top,
 a card for every place you care about, and a 24-hour timeline below.
 
 Day and night bands follow each city's actual sunrise and sunset. Warm is
@@ -54,7 +54,7 @@ already into their evening.
 • Quiet by design: muted palette, monospace numerals, nothing blinking for
   your attention.
 
-Solstice has no accounts, feeds, analytics, or tracking. Your settings are
+Dashboard has no accounts, feeds, analytics, or tracking. Your settings are
 stored in your browser. Open a tab, get your bearings, move on.
 ```
 
@@ -99,7 +99,7 @@ stored in your browser. Open a tab, get your bearings, move on.
 
 1. Go to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
    If this is the first publish, pay the one-time **$5** developer registration.
-2. **New item** → upload `solstice-1.0.0.zip`.
+2. **New item** → upload `dashboard-1.0.0.zip`.
 3. Fill the **Store listing** tab with the fields above; upload the icon and
    2–3 screenshots (and the promo tile if you want).
 4. Fill the **Privacy practices** tab with the single-purpose statement, the
