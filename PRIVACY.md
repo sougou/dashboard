@@ -122,8 +122,9 @@ or browsing history, because it has none.
   to IP or timezone city.
 - **`nativeMessaging`** — used solely to talk to the optional macOS helper that
   reads Bluetooth device battery levels. Nothing happens unless you install it.
-- **Host permissions** for the six domains listed above — required so the
-  extension may contact those geolocation, geocoding, and weather APIs.
+- **No host permissions.** The extension requests none. It contacts the
+  geolocation, geocoding, and weather services listed above directly from its
+  own page, and those services allow that.
 
 ## Contact
 

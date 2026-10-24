@@ -144,15 +144,20 @@ runs outside Chrome's sandbox.
    native/install.sh
    ```
 
-   This allows the private store listing (ID `akjlmhmbflomlldkmkmcfodacnijfkcl`).
-   If you also run an unpacked copy, add its ID, shown on its **Details** page in
-   `chrome://extensions`:
+   With no arguments this allows the private store listing (ID
+   `akjlmhmbflomlldkmkmcfodacnijfkcl`). For an unpacked copy, pass its ID instead,
+   shown on its **Details** page in `chrome://extensions`:
 
    ```bash
    native/install.sh <unpacked-extension-id>
    ```
 
-   Only the store ID and the IDs you pass can talk to the helper.
+   If you pass IDs, only those are allowed, so list every copy you use, including
+   the store ID, to run both:
+
+   ```bash
+   native/install.sh akjlmhmbflomlldkmkmcfodacnijfkcl <unpacked-extension-id>
+   ```
 3. Reload the extension and open a new tab. Devices appear under "This device"
    and refresh every 5 minutes.
 
@@ -185,8 +190,9 @@ before you install it:
   to Open-Meteo every 30 minutes. Search text for city lookups goes to
   Open-Meteo too.
 - **Battery.** "This device" uses Chrome's Battery Status API. It stays local.
-- **Broad permissions.** `geolocation`, `nativeMessaging`, and host access to
-  six domains (see `manifest.json`). Chrome will warn about some of them.
+- **Permissions.** `geolocation` and `nativeMessaging` (see `manifest.json`),
+  and no host permissions. The page calls the services above directly. Chrome
+  will warn about some of these.
 - **The macOS helper is optional and is native code.** `native/install.sh`
   installs a Perl script that Chrome launches **outside its sandbox, with your
   user's privileges**. It reads connected Bluetooth devices and their

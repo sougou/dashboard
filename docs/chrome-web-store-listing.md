@@ -96,18 +96,18 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
     location or the browser's time-zone name. The detected city and coordinates
     are cached locally for 24 hours; coordinates are sent only to the
     reverse-geocoding endpoint to resolve the city name.
-  - Host `api.bigdatacloud.net` — reverse-geocode granted coordinates → city name.
-  - Hosts `ipwho.is`, `ipapi.co`, `get.geojs.io` — IP-based city fallback when
-    geolocation is denied or unavailable (tried in order).
-  - Host `geocoding-api.open-meteo.com` — city search when adding a zone whose
-    name isn't in the bundled dataset.
   - `nativeMessaging` — Optional. Talks to a user-installed macOS helper
     (`native/install.sh`) that reads battery levels of connected Bluetooth
     devices, plus the last battery levels Logi Options+ saved for Logitech
     devices on a USB receiver. Web pages can't read these. The helper makes no network requests;
     without it the feature stays off.
-  - Host `api.open-meteo.com` — current weather for the local zone (rounded
-    coordinates; cached locally for 30 minutes).
+  - **No host permissions.** The extension requests none. Its page calls these
+    services directly, and they allow that (CORS): `api.bigdatacloud.net`
+    (reverse-geocode granted coordinates → city name), `ipwho.is`, `ipapi.co`,
+    `get.geojs.io` (IP-based city fallback when geolocation is denied or
+    unavailable, tried in order), `geocoding-api.open-meteo.com` (city search
+    for zones not in the bundled dataset), and `api.open-meteo.com` (current
+    weather for the local zone, rounded coordinates, cached 30 minutes).
 - **Data usage disclosures:** Declare **location** (approximate or precise,
   only if the user allows it, otherwise derived from the IP address). It is
   sent to third-party services as described in `PRIVACY.md` (BigDataCloud,
@@ -137,7 +137,7 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
 
 - **Store ID:** `akjlmhmbflomlldkmkmcfodacnijfkcl` (draft created 2026-10-23).
   It stays the same for the life of the item, across versions and visibility
-  changes. `native/install.sh` has it built in as `STORE_ID`.
+  changes. `native/install.sh` uses it by default as `STORE_ID`.
 
 ## Test instructions (Access → Test instructions)
 
@@ -155,18 +155,19 @@ Logitech battery rows are simply absent. The helper makes no network requests.
 ## Private distribution
 
 - The store package never includes `native/`. The macOS helper is installed
-  separately with `native/install.sh`, which always allows this listing's
-  `STORE_ID` plus any unpacked IDs you pass. Sean's original listing never has
-  access.
+  separately with `native/install.sh`, which allows this listing's `STORE_ID`
+  by default, or exactly the IDs you pass (list the store ID too to allow both).
+  Sean's original listing never has access.
 - Keep the README disclaimers and the paragraph in the description; they are
   what reviewers and testers see about the extension's reach.
 
 ## Notes
 
-- The 5 remote host permissions are the most likely review question. They're all
-  small, single-call geocoding/IP lookups with no data collection — the
-  justifications above map each host to its one job. If review pushes back, the
-  fallback is to drop the IP-geolocation hosts (`ipwho.is`, `ipapi.co`,
-  `get.geojs.io`) and rely on the browser geolocation prompt alone.
+- The extension declares no `host_permissions` on purpose: a host permission
+  triggers an in-depth review warning, and none of the services need one
+  because they all send `access-control-allow-origin: *`. If a service stops
+  sending that header, its requests will fail (the app degrades quietly) and the
+  fix is to add that one host back. `nativeMessaging` is now the most likely
+  review question; the test instructions explain it.
 - Version stays `1.0.0` for the first publish; bump on each subsequent upload.
 ```

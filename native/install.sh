@@ -3,10 +3,11 @@
 #
 #   native/install.sh [<extension-id> ...]
 #
-# Always allows Dashboard's private Chrome Web Store listing (STORE_ID below).
-# An unpacked copy has its own ID (see its Details page in chrome://extensions),
-# so pass it to allow that copy too. Only these IDs may talk to the helper.
-# Re-run after the IDs change. Remove with --uninstall.
+# With no arguments, allows Dashboard's private Chrome Web Store listing
+# (STORE_ID below). With one or more IDs, allows exactly those instead, e.g. an
+# unpacked copy, which has its own ID on its Details page in chrome://extensions.
+# Pass every ID you use (the store ID too, to run both). Only the allowed IDs may
+# talk to the helper. Re-run after the IDs change. Remove with --uninstall.
 set -euo pipefail
 
 NAME="dev.dashboard.bluetooth"
@@ -23,10 +24,12 @@ if [ "${1:-}" = "--uninstall" ]; then
   exit 0
 fi
 
-origins="\"chrome-extension://$STORE_ID/\""
-for id in "$@"; do
+ids=("$@")
+[ "${#ids[@]}" -eq 0 ] && ids=("$STORE_ID")
+origins=""
+for id in "${ids[@]}"; do
   [[ "$id" =~ ^[a-p]{32}$ ]] || { echo "Not an extension ID: $id" >&2; exit 1; }
-  origins="$origins, \"chrome-extension://$id/\""
+  origins="${origins:+$origins, }\"chrome-extension://$id/\""
 done
 
 mkdir -p "$DEST_DIR" "$MANIFEST_DIR"

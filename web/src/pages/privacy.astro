@@ -182,8 +182,14 @@ import { CHROME_STORE_URL as chromeStoreUrl, GITHUB_URL as githubUrl } from "../
           falls back to IP or your time zone.
         </li>
         <li>
-          <strong>Host permissions</strong> — required so the extension may
-          contact the geolocation and geocoding services listed above.
+          <strong><code>nativeMessaging</code></strong> — used solely to talk to
+          the optional macOS helper that reads Bluetooth device battery levels.
+          Nothing happens unless you install it.
+        </li>
+        <li>
+          <strong>No host permissions</strong> — the extension requests none. It
+          contacts the geolocation, geocoding, and weather services listed above
+          directly from its own page, and those services allow that.
         </li>
       </ul>
 
