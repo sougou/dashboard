@@ -86,3 +86,17 @@ test("parseLogi builds rows and skips bad entries; parseBluetooth appends them",
   const rows = parseBluetooth({ devices: [{ Mouse: { device_batteryLevelMain: "40%" } }], logi });
   assert.deepEqual(rows.map((r) => r.name), ["Mouse", "MX Keys S for Mac", "MX Master 3S"]);
 });
+
+test("parseLogi drops devices Options+ no longer manages, and filters nothing without a list", () => {
+  const logi = [
+    { id: "mx-keys-s-for-mac-2b37c", level: 75 },
+    { id: "mx-master-3s-2b034", level: 95 },
+  ];
+  const known = ["2b034_ext10", "2b392"];
+  assert.deepEqual(parseLogi(logi, known).map((r) => r.name), ["MX Master 3S"]);
+  assert.equal(parseLogi(logi, []).length, 2);
+  assert.equal(parseLogi(logi, undefined).length, 2);
+  assert.deepEqual(
+    parseBluetooth({ devices: [], logi, logi_known: known }).map((r) => r.name),
+    ["MX Master 3S"]);
+});

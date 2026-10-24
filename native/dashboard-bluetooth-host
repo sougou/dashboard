@@ -54,12 +54,16 @@ my $io_lines = join("\n", grep { /"(?:Product|BatteryPercent|DeviceAddress)" =|\
 
 # Logi Options+ records each device's last battery level in its settings
 # database (unofficial format, so failures are ignored). Read-only.
-my @logi;
+my (@logi, @logi_known);
 my $logi_db = "$ENV{HOME}/Library/Application Support/LogiOptionsPlus/settings.db";
 if (-r $logi_db) {
   my $row = run("/usr/bin/sqlite3", "-readonly", $logi_db,
     "select cast(file as text) from data order by _id desc limit 1");
   my $settings = eval { decode_json($row) } || {};
+  # Devices Options+ currently manages (true entries), so battery records of
+  # devices that were removed can be ignored. Model ids like "2b034_ext10".
+  my $known = eval { $settings->{settings_backup_state_v2}{knownDevices} } || {};
+  @logi_known = grep { $known->{$_} } sort keys %$known if ref $known eq "HASH";
   for my $key (sort keys %$settings) {
     next unless $key =~ m{^battery/([^/]+)/warning_notification$};
     my $v = $settings->{$key};
@@ -72,5 +76,6 @@ my $json = JSON::PP->new->utf8->canonical->encode({
   devices => \@connected,
   ioreg   => decode("UTF-8", $io_lines),
   logi    => \@logi,
+  logi_known => \@logi_known,
 });
 print pack("V", length($json)), $json;

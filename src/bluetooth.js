@@ -52,12 +52,20 @@ export function logiName(id) {
   }).join(" ");
 }
 
+// Model id of a Logi Options+ slot id: "mx-keys-s-for-mac-2b37c" → "2b37c".
+const logiModel = (id) => String(id).match(/-([0-9a-f]{5})$/)?.[1] ?? null;
+
 // Logitech devices on a USB receiver, from the helper's Logi Options+ data.
-export function parseLogi(entries) {
+// `known` is the model ids Options+ currently manages ("2b034_ext10", …).
+// Records for devices not in it (removed hardware) are dropped. An empty or
+// missing list means the format is unknown, so nothing is filtered.
+export function parseLogi(entries, known) {
+  const current = new Set((known ?? []).map((k) => String(k).split("_")[0]));
   const rows = [];
   for (const e of entries ?? []) {
     const pct = pctOf(e?.level);
     if (pct === null || !e?.id) continue;
+    if (current.size && !current.has(logiModel(e.id))) continue;
     const name = logiName(e.id);
     rows.push({ name, pct, kind: kindOf(name) });
   }
@@ -89,7 +97,7 @@ export function parseBluetooth(payload) {
   }
   // Earbuds appear twice (classic and BLE entries) with the same name; keep the
   // first row for each name.
-  rows.push(...parseLogi(payload?.logi));
+  rows.push(...parseLogi(payload?.logi, payload?.logi_known));
   const seen = new Set();
   return rows.filter((r) => !seen.has(r.name) && seen.add(r.name));
 }
