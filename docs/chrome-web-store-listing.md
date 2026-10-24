@@ -48,7 +48,8 @@ already into their evening.
   time, so you can find an hour that works for the whole group.
 • Daylight saving warnings: a zone shows "−1h in 4d" the week before daylight
   saving starts or ends.
-• Light and dark: follow your system or pick a theme.
+• Six color schemes (Teal, Midnight, Ember, Forest, Dusk, Graphite), each in
+  light and dark: follow your system or pick a theme.
 • Yours in seconds: add or remove cities, drag to reorder, rename a zone to a
   person's name, and switch between 12h and 24h.
 • Local weather: temperature, conditions, wind, humidity, and cloud cover for

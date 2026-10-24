@@ -104,6 +104,15 @@ London, tomorrow morning in Tokyo. Times snap to the quarter-hour as you go.
 The page freezes while you explore, with a **⏸** pill up top showing the
 moment you're parked at. Click it — or press **Esc** — to drop back to now.
 
+## Themes
+
+The Edit panel has two pickers. **Theme** is Light, Dark, or System (follows your
+OS and switches live). **Colors** is one of six schemes: Teal, Midnight, Ember,
+Forest, Dusk, or Graphite. Every scheme has a dark and a light palette, so the
+two choices combine freely, and both are remembered between tabs. The palettes
+live in `tools/make-schemes.mjs`; after editing one, run
+`node tools/make-schemes.mjs` to regenerate the CSS in `newtab.css`.
+
 ## Weather
 
 The big local clock has the current weather beside it: temperature, conditions,
@@ -302,9 +311,10 @@ Project layout:
 - `src/` — `timeModel.js`, `sun.js` (sunrise/sunset), `bands.js`,
   `dayPart.js`, `zones.js` (storage), `geo.js` (location), `layout.js`
   (responsive grid), `cityLookup.js` (remote search), `weather.js`,
-  `battery.js`, `bluetooth.js` (native-helper client and parsers), `render.js`.
+  `scheme.js` (color scheme names), `battery.js`, `bluetooth.js` (native-helper client and parsers), `render.js`.
 - `native/` — optional macOS helper (`dashboard-bluetooth-host`) and its
-  `install.sh`. `tools/make-icons.swift` regenerates the icons (macOS).
+  `install.sh`. `tools/make-icons.swift` regenerates the icons (macOS) and
+  `tools/make-schemes.mjs` regenerates the color-scheme CSS.
 - `test/` — `node:test` unit suites. `web/` — Astro website.
 - `docs/` — durable project memory, design notes, and roadmap.
 

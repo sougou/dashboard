@@ -4,6 +4,7 @@ import { gridColumns } from "./layout.js";
 import { searchCitiesRemote } from "./cityLookup.js";
 import { dstBadge } from "./dst.js";
 import { THEMES } from "./theme.js";
+import { SCHEMES, SCHEME_LABELS } from "./scheme.js";
 import { batteryNote } from "./battery.js";
 import { describeWeather, formatTemp, formatWind, compass } from "./weather.js";
 
@@ -192,6 +193,31 @@ function buildTheme(ctx) {
   return row;
 }
 
+function buildScheme(ctx) {
+  const row = document.createElement("div");
+  row.className = "ep-row";
+  const label = document.createElement("span");
+  label.className = "ep-row-label";
+  label.textContent = "Colors";
+  const swatches = document.createElement("div");
+  swatches.className = "ep-swatches";
+  swatches.setAttribute("role", "group");
+  swatches.setAttribute("aria-label", "Color scheme");
+  for (const name of SCHEMES) {
+    const b = document.createElement("button");
+    b.className = "swatch";
+    // Carries its own data-scheme so it previews its palette in the current theme.
+    b.dataset.scheme = name;
+    b.title = SCHEME_LABELS[name];
+    b.setAttribute("aria-label", `${b.title} colors`);
+    b.setAttribute("aria-pressed", String(ctx.scheme === name));
+    b.addEventListener("click", () => ctx.onScheme(name));
+    swatches.appendChild(b);
+  }
+  row.append(label, swatches);
+  return row;
+}
+
 export function renderEditBar(barEl, ctx) {
   barEl.innerHTML = "";
   barEl.className = "editbar";
@@ -236,6 +262,7 @@ function buildEditPanel(ctx) {
   panel.appendChild(list);
 
   panel.appendChild(buildTheme(ctx));
+  panel.appendChild(buildScheme(ctx));
   panel.appendChild(buildSearch(ctx));
 
   const done = document.createElement("button");

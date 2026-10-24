@@ -12,6 +12,7 @@ import { watchBattery } from "./src/battery.js";
 import { fetchBluetooth } from "./src/bluetooth.js";
 import { resolveUnit, writeUnit, refreshWeather } from "./src/weather.js";
 import { normalizeTheme, resolveTheme } from "./src/theme.js";
+import { normalizeScheme } from "./src/scheme.js";
 
 const app = document.getElementById("app");
 const editbar = document.createElement("div");
@@ -56,6 +57,8 @@ let battery = null;
 let devices = [];
 let tempUnit = resolveUnit(store, navigator.language);
 let timeFmt = store.getItem("timeFmt") === "24" ? "24" : "12"; // default 12h
+let scheme = normalizeScheme(store.getItem("scheme"));
+document.documentElement.dataset.scheme = scheme;
 let theme = normalizeTheme(store.getItem("theme"));
 const systemLight = window.matchMedia("(prefers-color-scheme: light)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -95,6 +98,14 @@ function ctx() {
       applyTheme();
       paintBar();
       editbar.querySelector(`.ep-theme [data-theme="${theme}"]`)?.focus();
+    },
+    scheme,
+    onScheme(name) {
+      scheme = normalizeScheme(name);
+      store.setItem("scheme", scheme);
+      document.documentElement.dataset.scheme = scheme;
+      paintBar();
+      editbar.querySelector(`.swatch[data-scheme="${scheme}"]`)?.focus();
     },
     onToggle() {
       editMode = !editMode; query = ""; focusSearch = false;
