@@ -5,7 +5,8 @@
 <h1 align="center">Dashboard</h1>
 
 <p align="center">
-  A calm new tab that shows your timezones at a glance — with day and night at each.
+  A calm new tab: your time zones with day and night at each, plus local weather
+  and device batteries.
 </p>
 
 <p align="center">
@@ -21,6 +22,10 @@ local time up top, a card for every place you care about, and a 24-hour
 timeline that makes the whole day legible at once. Each clock is shaded by
 where the sun actually is — so you can tell, without doing the math, who's
 asleep, who's mid-morning, and who's wrapping up their day.
+
+Beside the big clock sit the local weather and the battery levels of your
+computer and, on macOS with an optional helper, your Bluetooth and Logitech
+devices.
 
 No accounts, no feeds, no clutter. Open a tab, get your bearings, move on.
 
@@ -79,36 +84,6 @@ Click **Edit** (bottom-right) to open the panel:
   resolve instantly; anything else falls back to a free geocoding lookup so
   you can add essentially any city on earth.
 
-The big local clock has the current weather beside it: temperature, conditions,
-feels-like, wind, humidity, and cloud cover (click the temperature to switch
-°C/°F). It uses Open-Meteo and is not shown on the website.
-
-Beneath it, a "This device" row shows the battery level, charging state, and
-time remaining (Chrome's Battery Status API). It reads only the computer
-running the browser and stays local.
-
-### Bluetooth device batteries (macOS, optional)
-
-Chrome can't read the battery of AirPods, keyboards, or other Bluetooth
-devices, so Dashboard uses a small helper that asks macOS and hands the result
-to the extension through Chrome native messaging. It makes no network requests.
-
-1. Find the extension's ID on `chrome://extensions` (Developer mode on).
-2. Run `native/install.sh <extension-id>`. Only the IDs you pass can talk to
-   the helper, so pass the ID of each copy of the extension you use.
-3. Reload the extension and open a new tab. Devices appear under "This device"
-   and refresh every 5 minutes.
-
-If Logi Options+ is installed, the helper also shows Logitech devices on a USB
-receiver (such as an MX Master mouse or MX Keys keyboard), using the last
-battery level that app saved. That level can lag the Options+ window, and
-Logitech may change the format in an update. After updating the helper, re-run
-`native/install.sh <extension-id>`.
-
-Remove it with `native/install.sh --uninstall`. Without the helper nothing
-changes. macOS doesn't report charging state for these devices, so there's no
-charging indicator on them.
-
 Your local card is anchored first and labels itself with your city
 automatically. Don't like the guess? Type your own home label and it sticks.
 
@@ -129,12 +104,78 @@ London, tomorrow morning in Tokyo. Times snap to the quarter-hour as you go.
 The page freezes while you explore, with a **⏸** pill up top showing the
 moment you're parked at. Click it — or press **Esc** — to drop back to now.
 
+## Weather
+
+The big local clock has the current weather beside it: temperature, conditions,
+feels-like, wind, humidity, and cloud cover. Click the temperature to switch
+°C/°F (wind follows: mph or km/h). It defaults to °F for `en-US` browsers.
+
+Weather comes from [Open-Meteo](https://open-meteo.com) for your local zone's
+coordinates, rounded to about a kilometre, and refreshes every 30 minutes. If
+the request fails, the panel simply doesn't show.
+
+## Battery
+
+A third column beside the weather lists batteries:
+
+- **This device** — level, charging state, and time remaining, from Chrome's
+  Battery Status API. This works in Chrome on any platform that reports a
+  battery and stays local. A desktop with no battery may show a plugged-in 100%.
+- **Bluetooth devices** (macOS, optional) — AirPods and their case, keyboards,
+  mice, and similar.
+- **Logitech devices on a USB receiver** (macOS, optional) — for example an
+  MX Master mouse or MX Keys keyboard.
+
+Chrome can't see anything but the computer it runs on, so the last two come from
+a small helper that asks macOS and hands the result to the extension through
+Chrome native messaging. It makes no network requests. Without it, only "This
+device" shows.
+
+### Install the helper (macOS)
+
+Read [the disclaimers](#disclaimers) first; the helper is native code that
+runs outside Chrome's sandbox.
+
+1. Get the `native/` folder: clone the repo, or download it as a ZIP from
+   [github.com/sougou/dashboard](https://github.com/sougou/dashboard).
+2. From the repo folder, run:
+
+   ```bash
+   native/install.sh
+   ```
+
+   This allows the private store listing (ID `akjlmhmbflomlldkmkmcfodacnijfkcl`).
+   If you also run an unpacked copy, add its ID, shown on its **Details** page in
+   `chrome://extensions`:
+
+   ```bash
+   native/install.sh <unpacked-extension-id>
+   ```
+
+   Only the store ID and the IDs you pass can talk to the helper.
+3. Reload the extension and open a new tab. Devices appear under "This device"
+   and refresh every 5 minutes.
+
+To update it, `git pull` and run the same command again. To remove it, run
+`native/install.sh --uninstall`.
+
+Notes:
+
+- If Logi Options+ is installed, the helper reads the last battery level it
+  saved for each device. That can lag the Options+ window, and Logitech may
+  change the format in an update.
+- macOS doesn't report charging state for these devices, so they have no
+  charging indicator.
+- Non-Mac computers get the extension, weather, and "This device" battery, but
+  no helper.
+
 ## Disclaimers
 
-Dashboard is a personal project, provided as is with no warranty. It is not
-affiliated with or endorsed by Sean Oliver, Logitech, Apple, Open-Meteo, or any
-other company named here. It is also more intrusive than a typical new-tab
-extension, so know what it does before you install it:
+Dashboard is a personal project, provided as is with no warranty, and is
+distributed as a private extension. It is not affiliated with or endorsed by
+Sean Oliver, Logitech, Apple, Open-Meteo, or any other company named here. It
+is also more intrusive than a typical new-tab extension, so know what it does
+before you install it:
 
 - **It replaces your new tab page** and runs on every new tab you open.
 - **Location.** It can ask for your browser's geolocation. If you allow it,
@@ -162,13 +203,40 @@ extension, so know what it does before you install it:
 
 ## Install
 
-Dashboard is distributed privately; there is no public Chrome Web Store
-listing. To load it unpacked:
+Dashboard is a private extension. It isn't listed publicly on the Chrome Web
+Store; it's published as a private listing that only the people (Google
+accounts) the publisher has added can install.
 
-1. Clone or download this repo.
-2. Open `chrome://extensions` and enable **Developer mode** (top right).
-3. Click **Load unpacked** and select the project folder.
+**From the private listing**
+
+1. Sign in to Chrome with a Google account that has access to the listing.
+2. Open the listing link you were given and click **Add to Chrome**. Chrome
+   keeps it up to date automatically.
+3. Open a new tab.
+4. Optional, macOS only: [install the helper](#install-the-helper-macos) for
+   Bluetooth and Logitech batteries.
+
+**For development (unpacked)**
+
+1. Clone the repo somewhere permanent. Chrome loads the extension straight from
+   this folder, so don't move or delete it afterwards:
+
+   ```bash
+   git clone https://github.com/sougou/dashboard.git ~/dashboard
+   ```
+
+2. Open `chrome://extensions` and turn on **Developer mode** (top right). Leave
+   it on: Chrome disables unpacked extensions while it's off.
+3. Click **Load unpacked** and select the `~/dashboard` folder.
 4. Open a new tab.
+
+To update an unpacked copy, run `git -C ~/dashboard pull`, click the reload icon
+on its card in `chrome://extensions`, and open a new tab. If `native/` changed,
+re-run `native/install.sh <unpacked-extension-id>`.
+
+An unpacked copy and the store copy have different extension IDs, and unpacked
+IDs differ per computer. Only one extension can replace the new tab, so disable
+the others, including the original Solstice.
 
 ## Configure defaults
 
@@ -189,17 +257,22 @@ display order; the `"local"` zone always renders first.
 
 ## Privacy
 
-The extension has no servers, no accounts, no analytics, no tracking. Your
-settings live in your browser. Location, if you allow it, is used to label
-your local card and calculate its daylight accurately; the detected city and
-coordinates are cached locally for 24 hours. The website runs the same new tab, stores its
-settings in that site's `localStorage`, and never detects your location. Full
-details in [PRIVACY.md](PRIVACY.md).
+The extension has no servers, no accounts, no analytics, no tracking, and the
+developer receives nothing. Your settings live in your browser. It does contact
+a few third-party services, described in [PRIVACY.md](PRIVACY.md) and summarised
+under [Disclaimers](#disclaimers): location (if you allow it) goes to
+BigDataCloud, or your IP address goes to an IP lookup service; rounded
+coordinates go to Open-Meteo for weather; city search text goes to Open-Meteo.
+The detected city and coordinates are cached locally for 24 hours. The optional
+macOS helper reads Bluetooth and Logi Options+ battery data locally and makes no
+network requests. The website source in `web/` runs the same new tab, stores its
+settings in that site's `localStorage`, and never detects your location.
 
 ## Development
 
 The extension has no build step — it uses vanilla ES modules. Run its unit
-tests (time model, sun math, day-part bands) with:
+tests (time model, sun math, day-part bands, weather, battery, Bluetooth
+parsing) with:
 
 ```bash
 node --test
@@ -222,7 +295,10 @@ Project layout:
 - `config.js` — first-run default zones. `cities.js` — bundled city dataset.
 - `src/` — `timeModel.js`, `sun.js` (sunrise/sunset), `bands.js`,
   `dayPart.js`, `zones.js` (storage), `geo.js` (location), `layout.js`
-  (responsive grid), `cityLookup.js` (remote search), `render.js`.
+  (responsive grid), `cityLookup.js` (remote search), `weather.js`,
+  `battery.js`, `bluetooth.js` (native-helper client and parsers), `render.js`.
+- `native/` — optional macOS helper (`dashboard-bluetooth-host`) and its
+  `install.sh`. `tools/make-icons.swift` regenerates the icons (macOS).
 - `test/` — `node:test` unit suites. `web/` — Astro website.
 - `docs/` — durable project memory, design notes, and roadmap.
 

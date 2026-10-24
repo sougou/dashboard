@@ -86,8 +86,9 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
 
 ## Privacy tab (required before submission)
 
-- **Single purpose:** "A new-tab page that displays the current time across
-  multiple time zones, with sunrise/sunset-based day-night shading."
+- **Single purpose:** "A new-tab dashboard that shows the current time across
+  multiple time zones with day-night shading, plus local weather and device
+  battery levels."
 - **Permission justifications:**
   - `geolocation` — Optional. Used to label the user's local card with a
     nearby city name and calculate accurate sunrise/sunset bands for that
@@ -122,7 +123,7 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
 
 1. Go to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
    If this is the first publish, pay the one-time **$5** developer registration.
-2. **New item** → upload `dashboard-1.0.0.zip`.
+2. **New item** → upload `dashboard-<version>.zip`.
 3. Fill the **Store listing** tab with the fields above; upload the icon and
    2–3 screenshots (and the promo tile if you want).
 4. Fill the **Privacy practices** tab with the single-purpose statement, the
@@ -132,12 +133,31 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
    a few days. If rejected, the reason is usually a permission justification;
    tighten the wording above and resubmit.
 
+## Store item
+
+- **Store ID:** `akjlmhmbflomlldkmkmcfodacnijfkcl` (draft created 2026-10-23).
+  It stays the same for the life of the item, across versions and visibility
+  changes. `native/install.sh` has it built in as `STORE_ID`.
+
+## Test instructions (Access → Test instructions)
+
+Paste this for reviewers:
+
+```
+No account or login is needed. Open a new tab to see the clock, weather, and
+"This device" battery. Location is optional: deny the prompt and it falls back
+to an IP lookup or the time zone. The nativeMessaging permission is used only by
+an optional macOS helper that the user installs separately from the GitHub repo
+(native/install.sh). Without it, the extension works and the Bluetooth and
+Logitech battery rows are simply absent. The helper makes no network requests.
+```
+
 ## Private distribution
 
 - The store package never includes `native/`. The macOS helper is installed
-  separately with `native/install.sh <extension-id>`, and once the listing has
-  a store ID, pass that ID to `native/install.sh` as well. The installer
-  allows only the IDs you give it, so Sean's original listing never has access.
+  separately with `native/install.sh`, which always allows this listing's
+  `STORE_ID` plus any unpacked IDs you pass. Sean's original listing never has
+  access.
 - Keep the README disclaimers and the paragraph in the description; they are
   what reviewers and testers see about the extension's reach.
 
