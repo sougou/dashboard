@@ -48,8 +48,7 @@ already into their evening.
   time, so you can find an hour that works for the whole group.
 • Daylight saving warnings: a zone shows "−1h in 4d" the week before daylight
   saving starts or ends.
-• Light, dark, and accent colors: follow your system or pick a theme, then
-  choose from five accent colors.
+• Light and dark: follow your system or pick a theme.
 • Yours in seconds: add or remove cities, drag to reorder, rename a zone to a
   person's name, and switch between 12h and 24h.
 • Local weather: temperature, conditions, wind, humidity, and cloud cover for
@@ -78,8 +77,7 @@ or with Logitech or Apple, and is provided as is. See the README disclaimers.
   - `assets/store/store-hero.png`: the default dark view.
   - `assets/store/store-light.png`: the light theme.
   - `assets/store/store-scrub.png`: scrubbed to 4:30 PM.
-  - `assets/store/store-edit.png`: Edit panel with theme, accent, and city search.
-  - `assets/store/store-accent.png`: light theme, violet accent, Edit panel open.
+  - `assets/store/store-edit.png`: Edit panel with theme and city search.
 - **Small promo tile** (440×280, required): `assets/store/store-promo.jpg`
   (JPEG — the dashboard rejects PNGs with an alpha channel).
   Minimal icon-on-dark tile.

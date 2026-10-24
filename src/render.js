@@ -3,7 +3,6 @@ import { formatHM } from "./timeModel.js";
 import { gridColumns } from "./layout.js";
 import { searchCitiesRemote } from "./cityLookup.js";
 import { dstBadge } from "./dst.js";
-import { ACCENTS } from "./accent.js";
 import { THEMES } from "./theme.js";
 import { batteryNote } from "./battery.js";
 import { describeWeather, formatTemp, formatWind, compass } from "./weather.js";
@@ -170,9 +169,9 @@ const THEME_ICONS = {
 
 function buildTheme(ctx) {
   const row = document.createElement("div");
-  row.className = "ep-accent";
+  row.className = "ep-row";
   const label = document.createElement("span");
-  label.className = "ep-accent-label";
+  label.className = "ep-row-label";
   label.textContent = "Theme";
   const group = document.createElement("div");
   group.className = "fmt ep-theme";
@@ -190,30 +189,6 @@ function buildTheme(ctx) {
     group.appendChild(b);
   }
   row.append(label, group);
-  return row;
-}
-
-function buildAccent(ctx) {
-  const row = document.createElement("div");
-  row.className = "ep-accent";
-  const label = document.createElement("span");
-  label.className = "ep-accent-label";
-  label.textContent = "Accent";
-  const swatches = document.createElement("div");
-  swatches.className = "ep-swatches";
-  swatches.setAttribute("role", "group");
-  swatches.setAttribute("aria-label", "Accent color");
-  for (const name of ACCENTS) {
-    const b = document.createElement("button");
-    b.className = "swatch";
-    b.dataset.accent = name;
-    b.title = name[0].toUpperCase() + name.slice(1);
-    b.setAttribute("aria-label", `${b.title} accent`);
-    b.setAttribute("aria-pressed", String(ctx.accent === name));
-    b.addEventListener("click", () => ctx.onAccent(name));
-    swatches.appendChild(b);
-  }
-  row.append(label, swatches);
   return row;
 }
 
@@ -261,7 +236,6 @@ function buildEditPanel(ctx) {
   panel.appendChild(list);
 
   panel.appendChild(buildTheme(ctx));
-  panel.appendChild(buildAccent(ctx));
   panel.appendChild(buildSearch(ctx));
 
   const done = document.createElement("button");

@@ -8,7 +8,6 @@ import {
   readHome, writeHome,
 } from "./src/geo.js";
 import { CITIES } from "./cities.js";
-import { normalizeAccent } from "./src/accent.js";
 import { watchBattery } from "./src/battery.js";
 import { fetchBluetooth } from "./src/bluetooth.js";
 import { resolveUnit, writeUnit, refreshWeather } from "./src/weather.js";
@@ -57,8 +56,6 @@ let battery = null;
 let devices = [];
 let tempUnit = resolveUnit(store, navigator.language);
 let timeFmt = store.getItem("timeFmt") === "24" ? "24" : "12"; // default 12h
-let accent = normalizeAccent(store.getItem("accent"));
-document.documentElement.dataset.accent = accent;
 let theme = normalizeTheme(store.getItem("theme"));
 const systemLight = window.matchMedia("(prefers-color-scheme: light)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -98,14 +95,6 @@ function ctx() {
       applyTheme();
       paintBar();
       editbar.querySelector(`.ep-theme [data-theme="${theme}"]`)?.focus();
-    },
-    accent,
-    onAccent(name) {
-      accent = normalizeAccent(name);
-      store.setItem("accent", accent);
-      document.documentElement.dataset.accent = accent;
-      paintBar();
-      editbar.querySelector(`.swatch[data-accent="${accent}"]`)?.focus();
     },
     onToggle() {
       editMode = !editMode; query = ""; focusSearch = false;
