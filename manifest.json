@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Dashboard",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A calm new tab with a clock for every time zone, daylight at a glance, local weather, and battery levels for your devices.",
   "author": "Sugu Sougoumarane (based on Solstice by Sean Oliver)",
   "homepage_url": "https://github.com/sougou/dashboard",
